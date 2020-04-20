@@ -1,24 +1,38 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+
+import EffectApp from './components/use-effect/EffectApp';
+import ReducerApp from './components/use-reducer/ReducerApp';
+
+import './App.style.css';
+import ContextApp from './components/use-context/ContextApp';
+
+const data = {
+  list: [
+    { id: 1, title: 'Investigate performance', done: false, userId: 1 },
+    { id: 2, title: 'Implement React.memo', done: false, userId: 3 },
+    { id: 3, title: 'Take a break', done: true, userId: 2 },
+    { id: 4, title: 'Finish investigation', done: false, userId: 3 }
+  ],
+  users: [
+    { id: 1, name: 'Jan' },
+    { id: 2, name: 'Jef' },
+    { id: 3, name: 'Jos' }
+  ],
+  theme: null
+};
+
+const CLASS = {
+  appContainer: 'app-container'
+};
 
 function App() {
+  console.log('APP');
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={CLASS.appContainer}>
+      <EffectApp data={data} />
+      <ReducerApp data={data} />
+      <ContextApp data={data} />
     </div>
   );
 }
