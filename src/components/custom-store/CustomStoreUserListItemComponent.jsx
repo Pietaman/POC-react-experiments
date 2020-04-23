@@ -10,14 +10,22 @@ const CLASS = {
 
 const UserListItemComponet = ({ user }) => {
   const handleDeleteUser = (id) => {
-    const { users } = pocStore.getStore();
+    const { users, list } = pocStore.getStore();
 
     const updatedUsers = users.filter((user) => {
       return user.id !== id;
     });
 
+    const updatedList = list.filter((item) => {
+      return item.id !== id;
+    });
+
     pocStore.dispatch('UPDATE_USERS', {
       users: updatedUsers
+    });
+
+    pocStore.dispatch('UPDATE_TODOS', {
+      list: updatedList
     });
   };
 

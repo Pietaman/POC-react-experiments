@@ -26,6 +26,13 @@ const renderListItems = (todoList, toggleTodo) => {
 const CustomStoreTodoListComponent = () => {
   const [stateList, setStateList] = useState(pocStore.getStore().list);
 
+  pocStore.listen('UPDATE_TODOS', (event) => {
+    const store = {
+      ...pocStore.getStore()
+    };
+    setStateList(store.list);
+  });
+
   const handleToggleTodo = (id) => {
     const todos = [...pocStore.getStore().list];
 

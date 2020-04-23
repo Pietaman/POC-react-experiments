@@ -1,7 +1,7 @@
 import React from 'react';
 
-// import EffectApp from './components/use-effect/EffectApp';
-// import ReducerApp from './components/use-reducer/ReducerApp';
+import EffectApp from './components/use-effect/EffectApp';
+import ReducerApp from './components/use-reducer/ReducerApp';
 import CustomStoreApp from './components/custom-store/CustomStoreApp';
 
 import './App.style.css';
@@ -32,8 +32,8 @@ function App() {
   return (
     <div className={CLASS.appContainer}>
       <CustomStoreApp data={data} />
-      {/* <EffectApp data={data} />
-      <ReducerApp data={data} /> */}
+      <EffectApp data={data} />
+      <ReducerApp data={data} />
       <ContextApp data={data} />
     </div>
   );
