@@ -10,10 +10,18 @@ const CLASS = {
 
 const UserListItemComponet = ({ user }) => {
   const handleDeleteUser = (id) => {
-    pocStore.dispatch('UPDATE_USERS', { payload: { id } });
+    const { users } = pocStore.getStore();
+
+    const updatedUsers = users.filter((user) => {
+      return user.id !== id;
+    });
+
+    pocStore.dispatch('UPDATE_USERS', {
+      users: updatedUsers
+    });
   };
 
-  console.log('REDUCER - TODO LIST ITEM');
+  console.log('CUSTOM STORE - TODO LIST ITEM');
 
   return (
     <li className={CLASS.userListItem}>

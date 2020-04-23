@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 
 import PaintCounterComponent from '../paint-counter/PaintCounterComponent';
 import ReducerUserListItemComponent from './CustomStoreUserListItemComponent';
@@ -23,21 +23,28 @@ const renderListItems = (userList, dispatch) => {
 
 const CustomStoreUserListComponent = () => {
   const { users: userList } = pocStore.getStore();
+  const [stateUsers, setStateUsers] = useState(userList);
+
+  pocStore.listen('UPDATE_USERS', () => {
+    setStateUsers(pocStore.getStore().users);
+  });
 
   console.log('REDUCER - USER LIST');
 
   return (
     <div className={CLASS.userWrapper}>
       <h2>Users</h2>
-      <ul className={CLASS.userList}>{renderListItems(userList)}</ul>
+      <ul className={CLASS.userList}>{renderListItems(stateUsers)}</ul>
       <PaintCounterComponent />
     </div>
   );
 };
 
-// Extreme performance: use second argument of React.memo to compare prev & next props
-const areEqual = (prevProps, nextProps) => {
-  return prevProps.state.users.length === nextProps.state.users.length;
-};
+export default memo(CustomStoreUserListComponent);
 
-export default memo(CustomStoreUserListComponent, areEqual);
+// Extreme performance: use second argument of React.memo to compare prev & next props
+// const areEqual = (prevProps, nextProps) => {
+//   return prevProps.state.users.length === nextProps.state.users.length;
+// };
+
+// export default memo(CustomStoreUserListComponent, areEqual);

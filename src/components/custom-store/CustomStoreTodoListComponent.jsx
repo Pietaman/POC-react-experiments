@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 
 import CustomStoreTodoListItemComponent from './CustomStoreTodoListItemComponent';
 import PaintCounterComponent from '../paint-counter/PaintCounterComponent';
@@ -24,11 +24,11 @@ const renderListItems = (todoList, toggleTodo) => {
 };
 
 const CustomStoreTodoListComponent = () => {
-  const { list: todoList } = pocStore.getStore();
+  const [stateList, setStateList] = useState(pocStore.getStore().list);
 
   const handleToggleTodo = (id) => {
-    debugger;
     const todos = [...pocStore.getStore().list];
+
     const newTodos = todos.map((todo) => {
       if (todo.id !== id) {
         return todo;
@@ -37,14 +37,17 @@ const CustomStoreTodoListComponent = () => {
       newTodo.done = !newTodo.done;
       return newTodo;
     });
+
     pocStore.dispatch('UPDATE_TODOS', { list: [...newTodos] });
+
+    setStateList(newTodos);
   };
 
   return (
     <div className={CLASS.todoWrapper}>
       <h2>To do</h2>
       <ul className={CLASS.todoList}>
-        {renderListItems(todoList, handleToggleTodo)}
+        {renderListItems(stateList, handleToggleTodo)}
       </ul>
       <PaintCounterComponent />
     </div>

@@ -11,7 +11,7 @@ const pocStore = (() => {
     getStore() {
       return store;
     },
-    registerAction(action) {
+    register(action) {
       const { type, callback } = action;
 
       actions[type] = callback;
@@ -21,7 +21,7 @@ const pocStore = (() => {
         ...store,
         ...data
       };
-      debugger;
+
       if (!useCallback) {
         return;
       }

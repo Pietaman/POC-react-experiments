@@ -15,41 +15,36 @@ const CLASS = {
   globalTheme: 'app-wrapper--dark'
 };
 
-const registerActions = () => {
-  pocStore.registerAction({
-    type: 'UPDATE_THEME',
-    callback: () => {}
-  });
-
-  pocStore.registerAction({
-    type: 'UPDATE_TODOS',
-    callback: () => {}
-  });
-
-  pocStore.registerAction({
-    type: 'UPDATE_USERS',
-    callback: () => {}
-  });
-};
-
 function CustomStoreApp({ data }) {
-  pocStore.setStore(data);
+
+  if (!Object.keys(pocStore.getStore()).length) {
+    pocStore.setStore(data);
+  }
 
   const [globalTheme, setGlobalTheme] = useState(data.theme);
-  const [todoList, setTodoList] = useState(data.list);
-  const [userList, setUserList] = useState(data.users);
 
-  registerActions();
+  pocStore.register({
+    type: 'UPDATE_THEME',
+    callback: (store) => {
+      setGlobalTheme(store.theme);
+    }
+  });
 
-  pocStore.listen('UPDATE_TODOS', (event) => {
-    setTodoList(event.detail.list);
+  pocStore.register({
+    type: 'UPDATE_TODOS',
+    callback: () => { }
+  });
+
+  pocStore.register({
+    type: 'UPDATE_USERS',
+    callback: () => { }
   });
 
   const getClassName = (classArray) => {
     return classArray.filter(Boolean).join(' ');
   };
 
-  console.log('REDUCER - APP');
+  console.log('CUSTOM STORE - APP');
 
   return (
     <div
@@ -60,7 +55,19 @@ function CustomStoreApp({ data }) {
       ])}
     >
       <h1>POC using custom store()</h1>
-      <p>Some info here...</p>
+      <p>
+        Custom store is a simple state management API for JS applications, based on <a href="https://github.com/zooduck/zoohq" target="_blank">https://github.com/zooduck/zoohq</a>
+        <br />It is 100% framework agnostic and almost invisible at under 50 lines of code not minified. It has the following methods:
+        <ul>
+          <li>setStore() - for setting the initial store</li>
+          <li>register(actionName, actionCallback) - for registering actions (actionCallback gets the updated store as an arg)</li>
+          <li>dispatch(actionName, data, useCallback=true) - for updating the store and triggering the actionCallback</li>
+          <li>listen(actionName, callback) - no different to window.addEventListener(eventName, callback)</li>
+          <li>getStore() - for getting the current store</li>
+        </ul>
+        NOTE: The dispatch method updates the store and calls the register callback. It also fires a custom event of the action name
+        with an event.detail of the updated store. If the optional third parameter (useCallback) is set to false, it will only update the store.
+      </p>
       <ReducerThemeComponent />
       <ReducerTodoListComponent />
       <ReducerUserListComponent />
